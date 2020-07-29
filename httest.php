@@ -1,12 +1,6 @@
 <?php
-  // database details
-  $DB_HOST = "127.0.0.1";
-  $DB_USERNAME = "DB_USER";
-  $DB_PASSWORD = "DB_PASS";
-  $DB_NAME = "DB_NAME";
-
-  // create connection to database
-  $connection = new mysqli($DB_HOST,$DB_USERNAME,$DB_PASSWORD,$DB_NAME);
+  include_once('connect_db.php');
+  
   $query = "SELECT  * FROM users";
   $result = $connection->query($query);
   if (!$result) die ("Database access failed: " . $connection->error);
@@ -18,6 +12,7 @@
       $ids = $row['user_id'];
     }
   }
+
   // function has no return value
   function multiCurl($ids){
     // array of curl handles

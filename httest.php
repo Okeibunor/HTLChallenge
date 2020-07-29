@@ -1,6 +1,6 @@
 <?php
   include_once('connect_db.php');
-  
+
   $query = "SELECT  * FROM users";
   $result = $connection->query($query);
   if (!$result) die ("Database access failed: " . $connection->error);
@@ -9,12 +9,12 @@
     for ($j = 0 ; $j < $rows ; ++$j){
       $result->data_seek($j);
       $row = $result->fetch_array(MYSQLI_ASSOC);
-      $ids = $row['user_id'];
+      multiCurl($row);
     }
   }
 
   // function has no return value
-  function multiCurl($ids){
+  function multiCurl($row){
     // array of curl handles
     $multiCurl = array();
     // data to be returned
@@ -22,9 +22,9 @@
     // multi handle
     $mh = curl_multi_init();
     
-    foreach ($ids as $i => $id) {
+    foreach ($row as $i => $id) {
       // URL from which data will be fetched
-      $fetchURL = 'https://webkul.com&customerId='.$id;
+      $fetchURL = 'https://jsonplaceholder.typicode.com/users/'.$id;
       $multiCurl[$i] = curl_init();
       curl_setopt($multiCurl[$i], CURLOPT_URL,$fetchURL);
       curl_setopt($multiCurl[$i], CURLOPT_HEADER,0);

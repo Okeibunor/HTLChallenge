@@ -1,5 +1,6 @@
 <?php
   include_once('connect_db.php');
+  $users = [];
 
   $query = "SELECT  * FROM users";
   $result = $connection->query($query);
@@ -9,8 +10,9 @@
     for ($j = 0 ; $j < $rows ; ++$j){
       $result->data_seek($j);
       $row = $result->fetch_array(MYSQLI_ASSOC);
-      multiCurl($row);
+      $users[] = $row['id'];
     }
+    var_dump($users);
   }
 
   // function has no return value

@@ -12,7 +12,6 @@
       $row = $result->fetch_array(MYSQLI_ASSOC);
       $users[] = $row['id'];
     }
-    var_dump($users);
     reduceArray($users,0);
   }
 
@@ -38,7 +37,7 @@
     
     foreach ($row as $i => $id) {
       // URL from which data will be fetched
-      $fetchURL = 'https://jsonplaceholder.typicode.com/users/'.$id;
+      $fetchURL = 'https://jsonplaceholder.typicode.com/photos/'.$id;
       $multiCurl[$i] = curl_init();
       curl_setopt($multiCurl[$i], CURLOPT_URL,$fetchURL);
       curl_setopt($multiCurl[$i], CURLOPT_HEADER,0);

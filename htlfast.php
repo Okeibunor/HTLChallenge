@@ -1,5 +1,9 @@
 <?php
   include_once('connect_db.php');
+  
+  const TOTAL_USERS = 500;
+  const SLICER = 10;
+  
   $users = [];
   // sql query to get all users from database
   $query = "SELECT  * FROM users";
@@ -8,23 +12,27 @@
 
   $rows = $result->num_rows;
   if ($rows > 0){
-    for ($j = 0 ; $j < $rows ; ++$j){
+    for ($j = 0 ; $j < TOTAL_USERS ; ++$j){
       $row = $result->fetch_array(MYSQLI_ASSOC);
       $users[] = $row['id'];
     }
+    $START_TIME = time();
     reduceArray($users,0);
   }
 
   function nextO($array,$start){
-    $start = $start + 5; 
+    $start = $start + SLICER; 
     reduceArray($array,$start);
   }
 
   function reduceArray($array,$start){
-    $slice = array_slice($array,$start,5);
+    $slice = array_slice($array,$start,SLICER);
     multiCurl($slice);
-    if(($start+5) <= count($array)){
+    if(($start+SLICER) <= count($array)){
       nextO($array,$start);
+    }else{
+      global $START_TIME;
+      echo 'Start time: '.date('h:i:s',$START_TIME) .'=>> Execution time: '.(time()-$START_TIME).' seconds';
     }
   }  
 

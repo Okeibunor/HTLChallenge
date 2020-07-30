@@ -5,15 +5,27 @@
   $query = "SELECT  * FROM users";
   $result = $connection->query($query);
   if (!$result) die ("Database access failed: " . $connection->error);
+
   $rows = $result->num_rows;
   if ($rows > 0){
     for ($j = 0 ; $j < $rows ; ++$j){
-      $result->data_seek($j);
       $row = $result->fetch_array(MYSQLI_ASSOC);
       $users[] = $row['id'];
     }
     var_dump($users);
+    reduceArray($users,0);
   }
+
+  function nextO($array,$start){
+    $start = $start + 5; 
+    reduceArray($array,$start);
+  }
+
+  function reduceArray($array,$start){
+    $slice = array_slice($array,$start,5);
+    multiCurl($slice);
+    nextO($array,$start);
+  }  
 
   // function has no return value
   function multiCurl($row){
@@ -30,7 +42,7 @@
       $multiCurl[$i] = curl_init();
       curl_setopt($multiCurl[$i], CURLOPT_URL,$fetchURL);
       curl_setopt($multiCurl[$i], CURLOPT_HEADER,0);
-      curl_setopt($multiCurl[$i], CURLOPT_RETURNTRANSFER,1);
+      // curl_setopt($multiCurl[$i], CURLOPT_RETURNTRANSFER,1);
       curl_multi_add_handle($mh, $multiCurl[$i]);
     }
     $index=null;
@@ -44,6 +56,5 @@
     }
     // close
     curl_multi_close($mh);
-
   }
   ?>

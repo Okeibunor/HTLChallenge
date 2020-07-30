@@ -1,8 +1,7 @@
 <?php
   include_once('connect_db.php');
   
-  const TOTAL_USERS = 500;
-  const SLICER = 5;
+  const TOTAL_USERS = 10000;
   
   $users = [];
   // sql query to get all users from database
@@ -34,8 +33,6 @@
       $multiCurl = curl_init();
       curl_setopt($multiCurl, CURLOPT_URL,$fetchURL);
       curl_setopt($multiCurl, CURLOPT_HEADER,0);
-      // curl_setopt($multiCurl[$i], CURLOPT_RETURNTRANSFER,1);
-      // curl_multi_add_handle($mh, $multiCurl[$i]);
       $result = curl_exec($multiCurl);
       var_dump ($result);
     }

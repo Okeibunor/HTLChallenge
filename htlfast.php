@@ -1,8 +1,8 @@
 <?php
   include_once('connect_db.php');
   
-  const TOTAL_USERS = 500;
-  const SLICER = 10;
+  const TOTAL_USERS = 10000;
+  const SLICER = 5;
   
   $users = [];
   // sql query to get all users from database
@@ -17,19 +17,19 @@
       $users[] = $row['id'];
     }
     $START_TIME = time();
-    reduceArray($users,0);
+    billUsers($users,0);
   }
 
-  function nextO($array,$start){
+  function nextBatch($array,$start){
     $start = $start + SLICER; 
-    reduceArray($array,$start);
+    billUsers($array,$start);
   }
 
-  function reduceArray($array,$start){
+  function billUsers($array,$start){
     $slice = array_slice($array,$start,SLICER);
     multiCurl($slice);
     if(($start+SLICER) <= count($array)){
-      nextO($array,$start);
+      nextBatch($array,$start);
     }else{
       global $START_TIME;
       echo 'Start time: '.date('h:i:s',$START_TIME) .'=>> Execution time: '.(time()-$START_TIME).' seconds';
@@ -51,7 +51,6 @@
       $multiCurl[$i] = curl_init();
       curl_setopt($multiCurl[$i], CURLOPT_URL,$fetchURL);
       curl_setopt($multiCurl[$i], CURLOPT_HEADER,0);
-      // curl_setopt($multiCurl[$i], CURLOPT_RETURNTRANSFER,1);
       curl_multi_add_handle($mh, $multiCurl[$i]);
     }
     $index=null;

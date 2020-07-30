@@ -1,7 +1,7 @@
 <?php
   include_once('connect_db.php');
   $users = [];
-
+  // sql query to get all users from database
   $query = "SELECT  * FROM users";
   $result = $connection->query($query);
   if (!$result) die ("Database access failed: " . $connection->error);
@@ -23,7 +23,9 @@
   function reduceArray($array,$start){
     $slice = array_slice($array,$start,5);
     multiCurl($slice);
-    nextO($array,$start);
+    if(($start+5) <= count($array)){
+      nextO($array,$start);
+    }
   }  
 
   // function has no return value
